@@ -15,6 +15,7 @@ export default class TicketInfoPage extends React.Component {
             selectedType:null,
             selectedBeginTime:null,
             selectedEndTime:null,
+            selectedCity:null,
             keyword:""
         }
         // getFetch("/ticket/all","",(rsp)=>this.setState({
@@ -46,14 +47,15 @@ export default class TicketInfoPage extends React.Component {
     // }
 
     search(){
-        if(this.state.selectedType==null || this.state.selectedBeginTime==null || this.state.selectedEndTime==null){
-            alert("信息不足！")
-            return;
-        }
+        // if(this.state.selectedType==null || this.state.selectedBeginTime==null || this.state.selectedEndTime==null){
+        //     alert("信息不足！")
+        //     return;
+        // }
         let body = new Object();
         body.type=this.state.selectedType;
         body.beginTime=this.state.selectedBeginTime;
         body.endTime=this.state.selectedEndTime;
+        body.city = this.state.selectedCity;
         body.keyword = this.state.keyword
         postFetch("/ticket/search",body,(rsp)=>{
             this.setState({data:rsp});
@@ -68,6 +70,9 @@ export default class TicketInfoPage extends React.Component {
                 }}>登出</Button>
                 <Select style={{ width: 200 }} placeholder="选择门票类型" onChange={(value)=>this.setState({selectedType:value})}>
                     {this.state.types}
+                </Select>
+                <Select style={{ width: 200 }} placeholder="选择城市" onChange={(value)=>this.setState({selectedCity:value})}>
+                    {this.state.selectedCity}
                 </Select>
                 <Space direction="vertical" size={12}>
                     <RangePicker showTime onChange={(value)=>{
