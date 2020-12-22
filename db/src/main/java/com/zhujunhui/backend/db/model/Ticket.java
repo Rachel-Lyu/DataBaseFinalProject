@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="ticket")
+@Table(name = "ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int tid;
 
-    @Column(length = 16)
+    @Column(length = 50)
     private String ticketName;
 
     @Column(length = 8)
@@ -22,8 +22,26 @@ public class Ticket {
     @Column
     private int price;
 
-    @Column
+    @Column(length = 5000)
     private String detail;
+
+    @Column
+    private String city;
+
+    @Column
+    private String venues;
+
+    @Column
+    private Date beginTime;
+
+    @Column
+    private Date endTime;
+
+    @Column
+    private String posterUrl;
+
+    public Ticket() {
+    }
 
     public int getTid() {
         return tid;
@@ -89,10 +107,27 @@ public class Ticket {
         this.endTime = endTime;
     }
 
-    @Column
-    private Date beginTime;
+    public String getCity() {
+        return city;
+    }
 
-    @Column
-    private Date endTime;
+    public void setCity(String city) {
+        this.city = city;
+    }
 
+    public String getVenues() {
+        return venues;
+    }
+
+    public void setVenues(String venues) {
+        this.venues = venues;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
 }
