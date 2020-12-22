@@ -38,17 +38,29 @@ public class TicketController {
     @PostMapping("search")
     public ResultBean<List<TicketDao>> search(@RequestBody Map<String, String> map) throws ParseException {
 //        return ResultBean.success(ticketService.search())
-        System.out.println(map);
+//        System.out.println(map);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String type = map.get("type");
-        Date beginTime=sdf.parse(map.get("beginTime"));
-        Date endTime=sdf.parse(map.get("endTime"));
-        String keyword='%'+map.get("keyword")+'%';
-        return ResultBean.success(ticketService.search(type,keyword,beginTime,endTime));
+        if (type.equals("全部")) type = null;
+        String city = map.get("city");
+        if (city.equals("全部")) city = null;
+
+        Date beginTime = null;
+        if (map.get("beginTime") != null)
+            beginTime = sdf.parse(map.get("beginTime"));
+
+        Date endTime = null;
+        if (map.get("endTime") != null)
+            endTime = sdf.parse(map.get("endTime"));
+
+        String keyword = '%' + map.get("keyword") + '%';
+//        if (type != null)
+        System.out.println(keyword);
+        return ResultBean.success(ticketService.search(type, keyword, beginTime, endTime, city));
     }
 
     @GetMapping("getOne")
-    public ResultBean<TicketDetail> getOne(@RequestParam int ticketId){
+    public ResultBean<TicketDetail> getOne(@RequestParam int ticketId) {
         return ResultBean.success(ticketService.getOne(ticketId));
     }
 }
