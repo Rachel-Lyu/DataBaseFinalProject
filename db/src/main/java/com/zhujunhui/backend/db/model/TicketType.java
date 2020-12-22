@@ -6,27 +6,26 @@ import javax.persistence.*;
 @Table(name="ticket_type")
 public class TicketType {
 
-    public String getType_name() {
-        return type_name;
-    }
-
-    public void setType_name(String type_name) {
-        this.type_name = type_name;
-    }
-
-    public String getParent_name() {
-        return parent_name;
-    }
-
-    public void setParent_name(String parent_name) {
-        this.parent_name = parent_name;
-    }
-
     @Id
     @Column(name = "type_name", unique = true, nullable = false, length = 8)
-    private String type_name;
+    private String typeName;
 
-    @Column(length = 8)
-    private String parent_name;
+    @Column(length = 9)
+    private String parentName;
 
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 }
