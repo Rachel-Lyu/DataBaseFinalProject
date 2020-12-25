@@ -1,5 +1,6 @@
 package com.zhujunhui.backend.db.service;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.zhujunhui.backend.db.Dao.TicketDao;
 import com.zhujunhui.backend.db.Dao.TicketDetail;
 import com.zhujunhui.backend.db.model.Ticket;
@@ -37,12 +38,12 @@ public class TicketService {
         return list;
     }
 
-    public List<TicketDao> search(String typeName, String ticketName, Date begin, Date end, String city) {
+    public List<TicketDao> search(boolean isFatherType, String typeName, String ticketName, Date begin, Date end, String city) {
         List<Ticket> tickets = new ArrayList<>();
         List<TicketType> sonType = new ArrayList<>();
 //        System.out.println(typeName);
         if (typeName != null)
-            if (ticketTypeRepository.findByTypeName(typeName).get(0).getParentName() == null)
+            if (isFatherType)
                 sonType = ticketTypeRepository.findByParentName(typeName);
             else
                 sonType = ticketTypeRepository.findByTypeName(typeName);

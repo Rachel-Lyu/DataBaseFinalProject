@@ -15,12 +15,23 @@ public class TicketTypeService {
     @Autowired
     private TicketTypeRepository ticketTypeRepository;
 
+    public List<TicketTypeDao> getAllFatherTypes() {
+        List<TicketType> types = ticketTypeRepository.findByParentNameIsNull();
 
-    public List<TicketTypeDao> getAllTypes() {
-        List<TicketType> types = ticketTypeRepository.findAll();
+        return getTicketTypeDao(types);
+    }
 
-        if (types.isEmpty())
-            return null;
+    public List<TicketTypeDao> getAllSonsOf(String parentName) {
+        List<TicketType> types = new ArrayList<>();
+        if (parentName != null)
+            types = ticketTypeRepository.findByParentName(parentName);
+        System.out.println(types);
+        return getTicketTypeDao(types);
+    }
+
+    private List<TicketTypeDao> getTicketTypeDao(List<TicketType> types) {
+//        if (types.isEmpty())
+//            return null;
 
         TicketType typeAll = new TicketType();
         typeAll.setTypeName("全部");
@@ -31,5 +42,11 @@ public class TicketTypeService {
             list.add(new TicketTypeDao(type.getTypeName()));
         }
         return list;
+    }
+
+    public List<TicketTypeDao> getAllTypes() {
+        List<TicketType> types = ticketTypeRepository.findAll();
+
+        return getTicketTypeDao(types);
     }
 }

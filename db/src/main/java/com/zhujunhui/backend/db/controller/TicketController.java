@@ -30,9 +30,22 @@ public class TicketController {
         return ResultBean.success(ticketService.getAll());
     }
 
+//    @GetMapping("allTypes")
+//    public ResultBean<List<TicketTypeDao>> getAllTypes() {
+//        return ResultBean.success(ticketTypeService.getAllTypes());
+//    }
+
     @GetMapping("allTypes")
-    public ResultBean<List<TicketTypeDao>> getAllTypes() {
-        return ResultBean.success(ticketTypeService.getAllTypes());
+    public ResultBean<List<TicketTypeDao>> getAllFatherTypes() {
+        return ResultBean.success(ticketTypeService.getAllFatherTypes());
+    }
+
+    @PostMapping("sonTypes")
+    public ResultBean<List<TicketTypeDao>> getSonTypesOf(@RequestBody Map<String, String> map) throws ParseException {
+        System.out.println(map);
+        String parentType = map.get("fType");
+//        System.out.println(parentType);
+        return ResultBean.success(ticketTypeService.getAllSonsOf(parentType));
     }
 
     @PostMapping("search")
@@ -40,10 +53,16 @@ public class TicketController {
 //        return ResultBean.success(ticketService.search())
 //        System.out.println(map);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        boolean isFartherType = true;
         String type = map.get("type");
-        if (type.equals("全部")) type = null;
+        if (type != null && type.equals("全部")) type = null;
+        if (map.get("sonType") != null && !map.get("sonType").equals("全部")) {
+            type = map.get("sonType");
+            isFartherType = false;
+        }
+
         String city = map.get("city");
-        if (city.equals("全部")) city = null;
+        if (city != null && city.equals("全部")) city = null;
 
         Date beginTime = null;
         if (map.get("beginTime") != null)
@@ -56,7 +75,7 @@ public class TicketController {
         String keyword = '%' + map.get("keyword") + '%';
 //        if (type != null)
         System.out.println(keyword);
-        return ResultBean.success(ticketService.search(type, keyword, beginTime, endTime, city));
+        return ResultBean.success(ticketService.search(isFartherType, type, keyword, beginTime, endTime, city));
     }
 
     @GetMapping("getOne")

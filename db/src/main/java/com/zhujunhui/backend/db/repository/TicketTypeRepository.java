@@ -13,4 +13,6 @@ public interface TicketTypeRepository extends JpaRepository<TicketType, String> 
 
     List<TicketType> findByParentName(String parentName);
 
+    List<TicketType> findByParentNameIsNull();
+
 }

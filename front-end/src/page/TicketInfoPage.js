@@ -12,7 +12,9 @@ export default class TicketInfoPage extends React.Component {
         this.state = {
             data:null,
             types:null,
+            sonTps:null,
             selectedType:null,
+            selectedSonType:null,
             selectedBeginTime:null,
             selectedEndTime:null,
             selectedCity:null,
@@ -38,6 +40,18 @@ export default class TicketInfoPage extends React.Component {
             }
             this.setState({types:children})
         })
+        let bd = new Object();
+        bd.fType = this.state.selectedType
+        // console.log(bd)
+        // console.log(this.state)
+        postFetch("/ticket/sonTypes", bd, (rsp)=>{
+            console.log(rsp);
+            let sonTypes=[];
+            for(let i=0;i<rsp.length;i++){
+                sonTypes.push(<Select key={rsp[i].type_name}>{rsp[i].type_name}</Select>);
+            }
+            this.setState({sonTps:sonTypes})
+        })
     }
 
     // componentWillUnmount() {
@@ -57,6 +71,7 @@ export default class TicketInfoPage extends React.Component {
         body.endTime=this.state.selectedEndTime;
         body.city = this.state.selectedCity;
         body.keyword = this.state.keyword
+        body.sonType = this.state.selectedSonType
         postFetch("/ticket/search",body,(rsp)=>{
             this.setState({data:rsp});
         })
@@ -71,8 +86,8 @@ export default class TicketInfoPage extends React.Component {
                 <Select style={{ width: 200 }} placeholder="选择门票类型" onChange={(value)=>this.setState({selectedType:value})}>
                     {this.state.types}
                 </Select>
-                <Select style={{ width: 200 }} placeholder="选择城市" onChange={(value)=>this.setState({selectedCity:value})}>
-                    {this.state.selectedCity}
+                <Select style={{ width: 200 }} placeholder="子类型" onChange={(value)=>this.setState({selectedSonType:value})}>
+                    {this.state.sonTps}
                 </Select>
                 <Space direction="vertical" size={12}>
                     <RangePicker showTime onChange={(value)=>{
