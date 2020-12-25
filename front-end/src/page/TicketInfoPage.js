@@ -40,20 +40,24 @@ export default class TicketInfoPage extends React.Component {
             }
             this.setState({types:children})
         })
-        let bd = new Object();
-        bd.fType = this.state.selectedType
-        // console.log(bd)
-        // console.log(this.state)
-        postFetch("/ticket/sonTypes", bd, (rsp)=>{
-            console.log(rsp);
-            let sonTypes=[];
-            for(let i=0;i<rsp.length;i++){
-                sonTypes.push(<Select key={rsp[i].type_name}>{rsp[i].type_name}</Select>);
-            }
-            this.setState({sonTps:sonTypes})
-        })
     }
 
+    getSonType = (value) =>{
+        this.setState({selectedType:value}, 
+            ()=>{
+                let bd = new Object()
+                bd.fType = this.state.selectedType
+                postFetch("/ticket/sonTypes", bd, (rsp)=>{
+                    // console.log(rsp);
+                    let sonTypes=[];
+                    for(let i=0;i<rsp.length;i++){
+                        sonTypes.push(<Select key={rsp[i].type_name}>{rsp[i].type_name}</Select>);
+                    }
+                    this.setState({sonTps:sonTypes})
+                })
+            }
+        )
+    }
     // componentWillUnmount() {
     //     getFetch("/ticket/all","",(rsp)=>this.setState({
     //         data:rsp
@@ -83,7 +87,7 @@ export default class TicketInfoPage extends React.Component {
                 <Button type="primary" style={{float:"right"}} onClick={()=>{
                     this.props.history.push('login');
                 }}>登出</Button>
-                <Select style={{ width: 200 }} placeholder="选择门票类型" onChange={(value)=>this.setState({selectedType:value})}>
+                <Select style={{ width: 200 }} placeholder="选择门票类型" onChange={this.getSonType}>
                     {this.state.types}
                 </Select>
                 <Select style={{ width: 200 }} placeholder="子类型" onChange={(value)=>this.setState({selectedSonType:value})}>
