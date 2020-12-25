@@ -38,6 +38,10 @@ public class TicketService {
         return list;
     }
 
+    public List<TicketDao> getAllCities() {
+        return new ArrayList<>();
+    }
+
     public List<TicketDao> search(boolean isFatherType, String typeName, String ticketName, Date begin, Date end, String city) {
         List<Ticket> tickets = new ArrayList<>();
         List<TicketType> sonType = new ArrayList<>();

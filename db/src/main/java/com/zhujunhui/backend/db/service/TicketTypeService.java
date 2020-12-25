@@ -17,7 +17,7 @@ public class TicketTypeService {
 
     public List<TicketTypeDao> getAllFatherTypes() {
         List<TicketType> types = ticketTypeRepository.findByParentNameIsNull();
-
+//        System.out.println(types);
         return getTicketTypeDao(types);
     }
 
@@ -25,7 +25,7 @@ public class TicketTypeService {
         List<TicketType> types = new ArrayList<>();
         if (parentName != null)
             types = ticketTypeRepository.findByParentName(parentName);
-        System.out.println(types);
+
         return getTicketTypeDao(types);
     }
 

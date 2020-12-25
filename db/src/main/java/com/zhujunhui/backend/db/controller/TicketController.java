@@ -35,14 +35,18 @@ public class TicketController {
 //        return ResultBean.success(ticketTypeService.getAllTypes());
 //    }
 
-    @GetMapping("allTypes")
+    @GetMapping("parentTypes")
     public ResultBean<List<TicketTypeDao>> getAllFatherTypes() {
         return ResultBean.success(ticketTypeService.getAllFatherTypes());
     }
 
+    @GetMapping("allCities")
+    public ResultBean<List<TicketDao>> getAllCities() {
+        return ResultBean.success(ticketService.getAllCities());
+    }
     @PostMapping("sonTypes")
     public ResultBean<List<TicketTypeDao>> getSonTypesOf(@RequestBody Map<String, String> map) throws ParseException {
-        System.out.println(map);
+//        System.out.println(map);
         String parentType = map.get("fType");
 //        System.out.println(parentType);
         return ResultBean.success(ticketTypeService.getAllSonsOf(parentType));

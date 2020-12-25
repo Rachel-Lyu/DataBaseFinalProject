@@ -13,6 +13,7 @@ export default class TicketInfoPage extends React.Component {
             data:null,
             types:null,
             sonTps:null,
+            cities:null,
             selectedType:null,
             selectedSonType:null,
             selectedBeginTime:null,
@@ -32,14 +33,20 @@ export default class TicketInfoPage extends React.Component {
                 data:rsp
             })
         })
-        getFetch("/ticket/allTypes","",(rsp)=>{
+        getFetch("/ticket/parentTypes","",(rsp)=>{
             console.log(rsp);
-            let children=[];
+            let parentType=[];
             for(let i=0;i<rsp.length;i++){
-                children.push(<Select key={rsp[i].type_name}>{rsp[i].type_name}</Select>);
+                parentType.push(<Select key={rsp[i].type_name}>{rsp[i].type_name}</Select>);
             }
-            this.setState({types:children})
+            this.setState({types:parentType})
         })
+        let raw_cities = ["全部", "上海", "深圳", "珠海", "北京", "南昌", "武汉", "杭州", "沈阳", "南京", "广州", "成都", "苏州", "重庆", "厦门", "天津", "合肥", "南宁", "哈尔滨", "柳州", "海口", "佛山", "蚌埠", "南通", "长沙", "宁波", "惠州", "金华", "江门", "福州", "温州", "银川", "常州", "三亚", "茂名", "凉山", "聊城", "泰安", "绍兴", "济南", "郑州", "西安", "长春", "呼和浩特", "贵阳", "大连"]
+        let cities = []
+        for (let i = 0; i < raw_cities.length; i++) {
+            cities.push(<Select key={raw_cities[i]}>{raw_cities[i]}</Select>)
+        }
+        this.setState({cities:cities})
     }
 
     getSonType = (value) =>{
@@ -93,6 +100,10 @@ export default class TicketInfoPage extends React.Component {
                 <Select style={{ width: 200 }} placeholder="子类型" onChange={(value)=>this.setState({selectedSonType:value})}>
                     {this.state.sonTps}
                 </Select>
+                <Select style={{ width: 200 }} placeholder="城市" onChange={(value)=>this.setState({selectedCity:value})}>
+                    {this.state.cities}
+                </Select>
+                
                 <Space direction="vertical" size={12}>
                     <RangePicker showTime onChange={(value)=>{
                         if(value==null)
