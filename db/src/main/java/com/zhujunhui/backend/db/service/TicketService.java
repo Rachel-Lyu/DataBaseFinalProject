@@ -46,15 +46,13 @@ public class TicketService {
         List<Ticket> tickets = new ArrayList<>();
         List<TicketType> sonType = new ArrayList<>();
 //        System.out.println(typeName);
-        if (typeName != null) {
-            if (isFatherType)
-                sonType = ticketTypeRepository.findByParentName(typeName);
-            else
-                sonType = ticketTypeRepository.findByTypeName(typeName);
+        if (typeName != null && isFatherType) {
+            sonType = ticketTypeRepository.findByParentName(typeName);
             for (TicketType ticketType : sonType)
-                tickets = ticketRepository.findConditions(ticketType.getTypeName(), ticketName, begin, end, city);
+                tickets.addAll(ticketRepository.findConditions(ticketType.getTypeName(), ticketName, begin, end, city));
         } else
-            tickets = ticketRepository.findConditions(null, ticketName, begin, end, city);
+            tickets = ticketRepository.findConditions(typeName, ticketName, begin, end, city);
+
 
         if (tickets.isEmpty())
             return null;
