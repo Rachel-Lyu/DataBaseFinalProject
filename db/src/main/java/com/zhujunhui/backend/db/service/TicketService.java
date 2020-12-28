@@ -46,53 +46,15 @@ public class TicketService {
         List<Ticket> tickets = new ArrayList<>();
         List<TicketType> sonType = new ArrayList<>();
 //        System.out.println(typeName);
-        if (typeName != null)
+        if (typeName != null) {
             if (isFatherType)
                 sonType = ticketTypeRepository.findByParentName(typeName);
             else
                 sonType = ticketTypeRepository.findByTypeName(typeName);
-
-        if (typeName != null && begin != null && end != null && city != null) {
             for (TicketType ticketType : sonType)
-                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndBeginTimeAfterAndEndTimeBeforeAndCity(ticketType.getTypeName(), ticketName, begin, end, city));
-        } else if (typeName != null && begin != null && end != null) {
-            for (TicketType ticketType : sonType)
-                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndBeginTimeAfterAndEndTimeBefore(ticketType.getTypeName(), ticketName, begin, end));
-//        } else if (typeName != null && begin != null && city != null) {
-//            for (TicketType ticketType : sonType)
-//                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndBeginTimeAfterAndCity(ticketType.getTypeName(), ticketName, begin, city));
-//        } else if (typeName != null && end != null && city != null) {
-//            for (TicketType ticketType : sonType)
-//                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndEndTimeBeforeAndCity(ticketType.getTypeName(), ticketName, end, city));
-        } else if (typeName != null && city != null) {
-            for (TicketType ticketType : sonType)
-                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndCity(ticketType.getTypeName(), ticketName, city));
-//        } else if (typeName != null && end != null) {
-//            for (TicketType ticketType : sonType)
-//                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndEndTimeBefore(ticketType.getTypeName(), ticketName, end));
-//        } else if (typeName != null && begin != null) {
-//            for (TicketType ticketType : sonType)
-//                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLikeAndBeginTimeAfter(ticketType.getTypeName(), ticketName, begin));
-        } else if (typeName != null) {
-            for (TicketType ticketType : sonType)
-                tickets.addAll(ticketRepository.findByTypeNameAndTicketNameLike(ticketType.getTypeName(), ticketName));
-        } else if (begin != null && end != null && city != null)
-            tickets = (ticketRepository.AndTicketNameLikeAndBeginTimeAfterAndEndTimeBeforeAndCity(ticketName, begin, end, city));
-        else if (begin != null && end != null)
-            tickets = (ticketRepository.AndTicketNameLikeAndBeginTimeAfterAndEndTimeBefore(ticketName, begin, end));
-//        else if (begin != null && city != null)
-//            tickets = (ticketRepository.AndTicketNameLikeAndBeginTimeAfterAndCity(ticketName, begin, city));
-//        else if (end != null && city != null)
-//            tickets = (ticketRepository.AndTicketNameLikeAndEndTimeBeforeAndCity(ticketName, end, city));
-        else if (city != null)
-            tickets = (ticketRepository.AndTicketNameLikeAndCity(ticketName, city));
-//        else if (end != null)
-//            tickets = (ticketRepository.AndTicketNameLikeAndEndTimeBefore(ticketName, end));
-//        else if (begin != null)
-//            tickets = (ticketRepository.AndTicketNameLikeAndBeginTimeAfter(ticketName, begin));
-        else
-            tickets = (ticketRepository.AndTicketNameLike(ticketName));
-
+                tickets = ticketRepository.findConditions(ticketType.getTypeName(), ticketName, begin, end, city);
+        } else
+            tickets = ticketRepository.findConditions(null, ticketName, begin, end, city);
 
         if (tickets.isEmpty())
             return null;
