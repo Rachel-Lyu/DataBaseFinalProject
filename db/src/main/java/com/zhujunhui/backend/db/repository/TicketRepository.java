@@ -11,5 +11,5 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     @Query("SELECT t FROM Ticket t WHERE (:typeName is null or t.typeName = :typeName) and (t.ticketName like :ticketName) " +
             "and (:begin is null or t.beginTime > :begin) and (:end is null or t.endTime < :end) and (:city is null or t.city = :city)")
-    List<Ticket> findConditions(@Param("typeName") String typeName, String ticketName, @Param("begin") Date begin, @Param("end") Date end, @Param("city") String city);
+    List<Ticket> findConditions(@Param("typeName") String typeName, @Param("ticketName") String ticketName, @Param("begin") Date begin, @Param("end") Date end, @Param("city") String city);
 }

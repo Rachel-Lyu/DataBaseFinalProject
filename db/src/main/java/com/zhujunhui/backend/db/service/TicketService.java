@@ -44,7 +44,7 @@ public class TicketService {
 
     public List<TicketDao> search(boolean isFatherType, String typeName, String ticketName, Date begin, Date end, String city) {
         List<Ticket> tickets = new ArrayList<>();
-        List<TicketType> sonType = new ArrayList<>();
+        List<TicketType> sonType;
 //        System.out.println(typeName);
         if (typeName != null && isFatherType) {
             sonType = ticketTypeRepository.findByParentName(typeName);
