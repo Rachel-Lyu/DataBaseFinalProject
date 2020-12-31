@@ -12,7 +12,7 @@ export default class TicketInfoPage extends React.Component {
         this.state = {
             data:null,
             types:null,
-            sonTps:null,
+            sonTypes:null,
             cities:null,
             selectedType:null,
             selectedSonType:null,
@@ -60,7 +60,7 @@ export default class TicketInfoPage extends React.Component {
                     for(let i=0;i<rsp.length;i++){
                         sonTypes.push(<Select key={rsp[i].type_name}>{rsp[i].type_name}</Select>);
                     }
-                    this.setState({sonTps:sonTypes})
+                    this.setState({sonTypes:sonTypes})
                 })
             }
         )
@@ -98,7 +98,7 @@ export default class TicketInfoPage extends React.Component {
                     {this.state.types}
                 </Select>
                 <Select style={{ width: 200 }} placeholder="子类型" onChange={(value)=>this.setState({selectedSonType:value})}>
-                    {this.state.sonTps}
+                    {this.state.sonTypes}
                 </Select>
                 <Select style={{ width: 200 }} placeholder="城市" onChange={(value)=>this.setState({selectedCity:value})}>
                     {this.state.cities}
@@ -126,12 +126,15 @@ export default class TicketInfoPage extends React.Component {
                     this.props.history.push('myOrders');
                 }}>我的订单</Button>
             <Table dataSource={this.state.data}>
-                <Column title="ticket name" dataIndex="ticketName"/>
-                <Column title="price" dataIndex="price"/>
-                <Column title="available nums" dataIndex="availableNumber"/>
-                <Column title="Type Name" dataIndex="typeName"/>
+                <Column title="名称" dataIndex="ticketName"/>
+                <Column title="价格" dataIndex="price"/>
+                <Column title="场馆" dataIndex="venues"/>
+                <Column title="剩余数量" dataIndex="availableNumber"/>
+                <Column title="类型" dataIndex="typeName"/>
                 <Column title="开始时间" dataIndex="beginTime"/>
                 <Column title="结束时间" dataIndex="endTime" />
+
+                {/* <Column title="地点" dataIndex="city"> */}
                 <Column
                     title=""
                     key="action"

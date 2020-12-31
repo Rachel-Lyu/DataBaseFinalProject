@@ -14,6 +14,7 @@ public class TicketDao {
     private String ticketName;
     private int availableNumber;
     private int price;
+    private String venues;
     private String typeName;
     private String beginTime;
     private String endTime;
@@ -42,11 +43,12 @@ public class TicketDao {
         this.endTime = endTime;
     }
 
-    public TicketDao(int tid, String name, int num, int price, String typeName,String begin,String end){
+    public TicketDao(int tid, String name, int num, int price, String venues, String typeName,String begin,String end){
         this.tid=tid;
         this.ticketName=name;
         this.availableNumber=num;
         this.price=price;
+        this.venues = venues;
         this.typeName=typeName;
         this.beginTime=begin;
         this.endTime=end;
@@ -74,5 +76,13 @@ public class TicketDao {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getVenues() {
+        return venues;
+    }
+
+    public void setVenues(String venues) {
+        this.venues = venues;
     }
 }

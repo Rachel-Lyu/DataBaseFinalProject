@@ -11,8 +11,11 @@ export default class TicketInfoPage extends React.Component {
             endTime:null,
             typeName:null,
             price:null,
+            city:null,
+            venues:null,
             availableNumber:null,
-            detail:null
+            detail:null,
+            poster:null
         }
     }
 
@@ -31,8 +34,11 @@ export default class TicketInfoPage extends React.Component {
                 endTime:rsp.endTime,
                 typeName:rsp.typeName,
                 price:rsp.price,
+                city:rsp.city,
+                venues:rsp.venues,
                 availableNumber:rsp.availableNumber,
-                detail:rsp.detail
+                detail:rsp.detail,
+                poster:rsp.poster
             })
             console.log(this.state)
         })
@@ -40,7 +46,9 @@ export default class TicketInfoPage extends React.Component {
 
     render(){
         return (
+            
             <Col span={12} offset={6}>
+                <div><img src={this.state.poster} /></div>
                 <Button type="primary" style={{float:"right"}} onClick={()=>{
                     this.props.history.goBack();
                 }}>返回</Button>
@@ -51,6 +59,8 @@ export default class TicketInfoPage extends React.Component {
                 <Descriptions.Item label="所属类型">{this.state.typeName}</Descriptions.Item>
                 <Descriptions.Item label="价格"><span style={{color:"red"}}>{this.state.price}</span></Descriptions.Item>
                 <Descriptions.Item label="剩余名额"><span style={{color:"blue"}}>{this.state.availableNumber}</span></Descriptions.Item>
+                {/* <Descriptions.Item label="城市">{this.state.city}</Descriptions.Item>
+                <Descriptions.Item label="场馆">{this.state.venues}</Descriptions.Item> */}
                 <Descriptions.Item label="演出详情" span={3}>
                     {this.state.detail}
                 </Descriptions.Item>

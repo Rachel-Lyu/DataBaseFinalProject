@@ -4,19 +4,25 @@ public class TicketDetail {
     private String ticketName;
     private int availableNumber;
     private int price;
+    private String city;
+    private String venues;
     private String typeName;
     private String beginTime;
     private String endTime;
     private String detail;
+    private String poster;
 
-    public TicketDetail(String ticketName, int availableNumber, int price, String typeName, String beginTime, String endTime, String detail) {
+    public TicketDetail(String ticketName, int availableNumber, int price, String city, String venues, String typeName, String beginTime, String endTime, String detail, String poster) {
         this.ticketName = ticketName;
         this.availableNumber = availableNumber;
         this.price = price;
+        this.city = city;
+        this.venues = venues;
         this.typeName = typeName;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.detail = detail;
+        this.poster = poster;
     }
 
     public String getTicketName() {
@@ -73,5 +79,29 @@ public class TicketDetail {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getVenues() {
+        return venues;
+    }
+
+    public void setVenues(String venues) {
+        this.venues = venues;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 }

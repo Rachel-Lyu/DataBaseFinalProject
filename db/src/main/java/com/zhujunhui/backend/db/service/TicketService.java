@@ -31,7 +31,7 @@ public class TicketService {
         List<Ticket> lists = ticketRepository.findAll();
         for (Ticket ticket : lists) {
             list.add(new TicketDao(ticket.getTid(), ticket.getTicketName(),
-                    ticket.getAvailableNumber(), ticket.getPrice(), ticket.getTypeName(),
+                    ticket.getAvailableNumber(), ticket.getPrice(), "【" + ticket.getCity() + "】" + ticket.getVenues(), ticket.getTypeName(),
                     sdf.format(ticket.getBeginTime()),
                     sdf.format(ticket.getEndTime())));
         }
@@ -60,7 +60,7 @@ public class TicketService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (Ticket ticket : tickets) {
             list.add(new TicketDao(ticket.getTid(), ticket.getTicketName(),
-                    ticket.getAvailableNumber(), ticket.getPrice(), ticket.getTypeName(),
+                    ticket.getAvailableNumber(), ticket.getPrice(), "【" + ticket.getCity() + "】" + ticket.getVenues(), ticket.getTypeName(),
                     sdf.format(ticket.getBeginTime()),
                     sdf.format(ticket.getEndTime()))
             );
@@ -76,10 +76,13 @@ public class TicketService {
             return new TicketDetail(object.getTicketName(),
                     object.getAvailableNumber(),
                     object.getPrice(),
+                    object.getCity(),
+                    object.getVenues(),
                     object.getTypeName(),
                     sdf.format(object.getBeginTime()),
                     sdf.format(object.getEndTime()),
-                    object.getDetail());
+                    object.getDetail(),
+                    object.getPosterUrl());
         }
         return null;
     }
