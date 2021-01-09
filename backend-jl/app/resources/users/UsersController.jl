@@ -26,24 +26,22 @@ using Genie
   
   function checkLogin(uid, password, params)
     user = find(User, where("uid = ?", uid) + where("password = ?", password))
-    ( (! haskey(params, Genie.PARAMS_SESSION_KEY) || params[Genie.PARAMS_SESSION_KEY] === nothing) ) &&
-    (Sessions.start(params[:REQUEST], params[:RESPONSE], params))
-
-    sess = params[:SESSION]
-    println(typeof(sess))
-    if length(user) != 0
+    sess = Genie.Sessions.session(params)
+    if length(user) == 0
       return Dict("code" => 1, "msg" => "用户名或密码错误！") |> json
     else
       Genie.Sessions.set!(sess, :uid, uid)
+      # println(params[:SESSION])
       return Dict("code" => 0, "msg" => "登录成功！") |> json
     end
   end
+
+  function logout(params)
+    sess = params[Genie.PARAMS_SESSION_KEY]
+    # println(typeof(sess))
+    # println(Genie.Sessions.get(Sessions.session(params), :uid))
+    Genie.Sessions.unset!(Sessions.session(params), :uid)
+    "成功" |> json
+  end
 end
 
-function logout(params)
-  sess = params[Genie.PARAMS_SESSION_KEY]
-  println(typeof(sess))
-  println(Genie.Sessions.get(Sessions.session(params), :uid))
-  Genie.Sessions.unset!(Sessions.session(params), :uid)
-  "成功" |> json
-end

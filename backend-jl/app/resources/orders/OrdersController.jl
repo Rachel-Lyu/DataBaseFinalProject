@@ -1,8 +1,8 @@
 module OrdersController
-using SearchLight, Genie.Renderer.Json
+using SearchLight, Genie.Renderer.Json, Genie.Sessions
 using SearchLight.QueryBuilder
 using Tickets, Orders
-using Dates
+using Dates, Genie
 
 function create(params)
   tid = parse(Int, get(params, :ticketId, "0"))

@@ -13,6 +13,6 @@ export User
 end
 
 function seed()
-  User(DbId(), "7777777", "7777777", "lucky seven") |> save!
+  User(DbId(), "7777777", "lucky seven", "7777777") |> save!
 end
 end

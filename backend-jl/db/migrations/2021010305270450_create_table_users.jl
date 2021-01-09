@@ -12,7 +12,8 @@ function up()
     ]
   end
 
-  add_index(:users, :uid)
+  add_index(:users, "uid`, `password", name = "uid_password")
+  add_index(:users, "uid", name = "uid_idx")
 end
 
 function down()
