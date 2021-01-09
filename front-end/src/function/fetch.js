@@ -19,7 +19,7 @@ function handleRtn(rsp, callback) {
 
 let postFetch = (url, body, callback) => {
     let completeURL = baseURL + url;
-    console.log(JSON.stringify(body));
+    console.log(completeURL, JSON.stringify(body));
     fetch(completeURL, {
         method: "POST",
         mode: "cors",

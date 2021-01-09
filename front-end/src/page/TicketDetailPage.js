@@ -1,6 +1,7 @@
 import React from "react";
-import {getFetch} from "../function/fetch";
+import {getFetch, postFetch} from "../function/fetch";
 import {Descriptions, Badge, Button, Col} from 'antd';
+import CommentApp from './Comment'
 
 export default class TicketInfoPage extends React.Component {
     constructor() {
@@ -15,7 +16,9 @@ export default class TicketInfoPage extends React.Component {
             venues:null,
             availableNumber:null,
             detail:null,
-            poster:null
+            poster:null,
+            comments:[],
+            data:null
         }
     }
 
@@ -38,15 +41,21 @@ export default class TicketInfoPage extends React.Component {
                 venues:rsp.venues,
                 availableNumber:rsp.availableNumber,
                 detail:rsp.detail,
-                poster:rsp.poster
+                poster:rsp.poster,
+                comments:rsp.comments
             })
             console.log(this.state)
         })
     }
-
+    handleDeleteComment(cid, uid){
+        if (localStorage.getItem('id') != uid) alert("不是您自己的评论！")
+        getFetch("/deleteComment?cid=" + cid, '', (rsp) => {
+            console.log(rsp)
+            this.setState({data:rsp})
+        })
+    }
     render(){
         return (
-            
             <Col span={12} offset={6}>
                 <div><img src={this.state.poster} /></div>
                 <Button type="primary" style={{float:"right"}} onClick={()=>{
@@ -65,7 +74,13 @@ export default class TicketInfoPage extends React.Component {
                     {this.state.detail}
                 </Descriptions.Item>
             </Descriptions>
-                <Button type="primary" onClick={()=>this.buy(localStorage.getItem('id'),this.props.match.params.ticketId)}>购买</Button>
+                <Button type="primary" onClick={()=>this.buy(localStorage.getItem('id'), this.props.match.params.ticketId)}>购买</Button>
+            <div className='wrapper'>
+                <CommentApp 
+                ticketId={this.props.match.params.ticketId} 
+                comments={this.state.comments}
+                onDeleteComment={this.handleDeleteComment.bind(this)}/>
+            </div>
             </Col>
         );
     }
