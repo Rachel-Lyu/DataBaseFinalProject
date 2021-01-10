@@ -19,6 +19,7 @@ export default class TicketInfoPage extends React.Component {
             selectedBeginTime:null,
             selectedEndTime:null,
             selectedCity:null,
+            selectedPrice:null,
             keyword:""
         }
         // getFetch("/ticket/all","",(rsp)=>this.setState({
@@ -83,6 +84,7 @@ export default class TicketInfoPage extends React.Component {
         body.city = this.state.selectedCity;
         body.keyword = this.state.keyword
         body.sonType = this.state.selectedSonType
+        body.price = this.state.selectedPrice
         postFetch("/ticket/search",body,(rsp)=>{
             this.setState({data:rsp});
         })
@@ -92,6 +94,7 @@ export default class TicketInfoPage extends React.Component {
         return(
             <Col span={12} offset={6}>
                 <Button type="primary" style={{float:"right"}} onClick={()=>{
+                    getFetch("/api/logout", '', (rsp)=>{console.log(rsp)})
                     this.props.history.push('login');
                 }}>登出</Button>
                 <Select style={{ width: 200 }} placeholder="选择门票类型" onChange={this.getSonType}>
@@ -119,6 +122,7 @@ export default class TicketInfoPage extends React.Component {
                     }}/>
                 </Space>
                 <Input placeholder="关键字" onChange={(e)=>this.setState({keyword:e.target.value})} />
+                <Input placeholder="最高价" onChange={(e)=>this.setState({selectedPrice:e.target.value})} />
                 <Button type="primary" onClick={()=>{
                     this.search()
             }}>搜索</Button>

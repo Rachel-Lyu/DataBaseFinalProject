@@ -68,7 +68,6 @@ class CommentInput extends React.Component{
               </div>
               <div className='comment-field-button'>
                  <Button type="primary" onClick={this.handleSubmit.bind(this)}>发布</Button>
-                 {/* <Button type="primary" onClick={()=>this.buy(localStorage.getItem('id'),this.props.match.params.ticketId)}>购买</Button> */}
               </div>
             </div>
         )
@@ -98,8 +97,6 @@ class Comment extends React.Component {
     _updateTimeString () {
         const comment = this.props.comment
         var time = new Date(comment.time.replace("T", " "))
-        var timestr = time.getTime()
-        console.log(comment.time.replace("T", " "), timestr)
         const duration = (+Date.now() - time) / 1000
         this.setState({
           timeString: duration > 120 
@@ -138,11 +135,15 @@ class Comment extends React.Component {
           <span className='comment-createdtime'>
             {this.state.timeString}
           </span>
-          <span 
-          onClick={this.handleDeleteComment.bind(this)}
-          className='comment-delete'>
-            删除
-          </span>
+          {
+            this.props.comment.uid == localStorage.getItem('id') &&
+            <span 
+            onClick={this.handleDeleteComment.bind(this)}
+            className='comment-delete'>
+              删除
+            </span>
+          }
+          
         </div>
       )
     }
@@ -183,9 +184,9 @@ class CommentApp extends React.Component{
     }
 
     handleSubmitComment (body) {
-        postFetch("/api/createComment", body, (rsp) =>{
-            this.setState({data:rsp})
-        })
+        if(this.props.onCreateComment){
+          this.props.onCreateComment(body)
+        }
     }
 
     static propTypes = {
@@ -200,7 +201,6 @@ class CommentApp extends React.Component{
     }
 
     render(){
-        console.log(this.props.comments)
         return(
         <div>
             <CommentInput onSubmit={this.handleSubmitComment.bind(this)}/>

@@ -1,4 +1,4 @@
-const baseURL = "api";
+const baseURL = "/api";
 
 function makeURL(url, params = {}) {
     let newURL = new URL(url, window.location.origin);
@@ -19,7 +19,7 @@ function handleRtn(rsp, callback) {
 
 let postFetch = (url, body, callback) => {
     let completeURL = baseURL + url;
-    console.log(completeURL, JSON.stringify(body));
+    // console.log(completeURL, JSON.stringify(body));
     fetch(completeURL, {
         method: "POST",
         mode: "cors",
