@@ -37,11 +37,14 @@ using Genie
   end
 
   function logout(params)
-    sess = params[Genie.PARAMS_SESSION_KEY]
+    sess = get(params, Genie.PARAMS_SESSION_KEY, nothing)
     # println(typeof(sess))
     # println(Genie.Sessions.get(Sessions.session(params), :uid))
-    Genie.Sessions.unset!(Sessions.session(params), :uid)
-    "成功" |> json
+    if sess !== nothing
+      Genie.Sessions.unset!(Sessions.session(params), :uid)  
+    end
+    println(Sessions.session(params))
+    Dict("code" => 0, "msg" => "成功") |> json
   end
 end
 

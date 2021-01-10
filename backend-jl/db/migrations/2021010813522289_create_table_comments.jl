@@ -5,7 +5,7 @@ function up()
   create_table(:comments) do
     [
       primary_key()
-      column(:uid, :int, limit = 20)
+      column(:uid, :string, limit = 20)
       column(:tid, :int)
       column(:comment, :string, limit = 5000)
       column(:time, :datetime)

@@ -1,5 +1,5 @@
 using Genie, Genie.Router, Genie.Requests, Genie.Sessions, Genie.Renderer
-using TicketsController, UsersController, TicketTypesController, OrdersController
+using TicketsController, UsersController, TicketTypesController, OrdersController, CommentsController
 using Genie.Renderer.Json, Genie.Renderer.Html
 
 # Genie.config.run_as_server = true
@@ -16,9 +16,9 @@ route("/ticket/sonTypes", method = POST) do
   TicketTypesController.getSonTypes(jsonpayload())
 end
 
-route("/ticket/all", TicketsController.allTickets)
+route("/ticket/all", TicketsController.allTickets) 
 
-route("/api/ticket/all", TicketsController.allTickets)
+#route("/api/ticket/all", TicketsController.allTickets)
 
 route("/ticket/getOne") do 
   tid = parse(Int, @params(:ticketId))
@@ -38,7 +38,6 @@ route("/order/createOrder") do
 end
 
 route("/order/selfOrder") do 
-  println(@params)
   OrdersController.getOrders(@params)
 end
 
@@ -56,8 +55,12 @@ route("/api/logout") do
   UsersController.logout(@params)
 end
 
-route("/api/createComment") do 
-  
+route("/api/createComment", method = POST) do 
+  CommentsController.createComment()  
 end
+
+route("/api/deleteComment", CommentsController.deleteComment) 
+
+route("/api/getComments", CommentsController.getComments) 
 
 # Genie.startup()

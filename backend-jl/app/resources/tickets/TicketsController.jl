@@ -1,10 +1,15 @@
 module TicketsController
-using Genie.Renderer.Html, SearchLight, Genie.Renderer.Json
+using Genie.Router, Genie.Renderer.Html, SearchLight, Genie.Renderer.Json
 using SearchLight.QueryBuilder
 using Tickets, TicketTypes, Comments, Users
 using Dates
 
 function allTickets()
+    if Genie.Sessions.get(@params(:SESSION), :uid, nothing) === nothing 
+        println(@params(:SESSION))
+        # return Genie.Renderer.redirect("/login")
+        # println("asdzzzzzzzzz\n\n\n\n\n\n")
+    end
     sleep(0.02)
     tickets = all(Ticket)
     Dict("code" => 0, 
@@ -18,8 +23,8 @@ end
 function getOne(tid)
     ticket = SearchLight.findone(Ticket, id = tid)
     comments = SearchLight.find(Comment, where("tid = ?", tid))
-    getuid(uid::Int)::String = findone(User, id = uid).uid
-    cmts = [Dict("cid" => c.id.value, "uid" => c.uid |> getuid , 
+#    getuid(uid::Int)::String = findone(User, id = uid).uid
+    cmts = [Dict("cid" => c.id.value, "uid" => c.uid, 
                  "content" => c.comment, "time" => c.time, 
                  "anony" => c.anony) for c in comments]
 

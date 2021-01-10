@@ -1,11 +1,17 @@
 module CommentsController
 using Comments
-using SearchLight, Genie.Renderer.Json
+using SearchLight, Genie.Renderer.Json, Genie.Requests, Genie.Router
+using SearchLight.QueryBuilder
 using Dates
 
   function createComment()
-    uid, tid, comment, anony = get.(Ref(@params), [:uid, :tid, :comment, :anony], "")
-    Comment(SearchLight.DbId(), uid, tid, now(), anony) |> SearchLight.save!
+	dct = jsonpayload()
+	println(dct)
+    uid, tid, comment, anony = get.(Ref(dct), ["uid", "tid", "comment", "anony"], "")
+	tid_ = parse(Int, string(tid))
+	anony_ = parse(Bool, string(anony))
+    Comment(SearchLight.DbId(), uid, tid_, comment, now(), anony_) |> SearchLight.save!
+	println("保存成功")
     return Dict("code" => 0, "msg" => "success") |> json
   end
 
@@ -25,4 +31,12 @@ using Dates
     comment |> save!
   end
   
+  function getComments()
+    tid = @params(:tid)
+    comments = SearchLight.find(Comment, where("tid = ?", tid))
+    Dict("code" => 0, "data" => Dict("comments" => [Dict(vcat([("content", c.comment), ("cid", c.id.value)], 
+                            [(k_name, getfield(c, k_name)) 
+                                for k_name in fieldnames(eltype(comments))])) 
+                            for c in comments])) |> json
+  end
 end

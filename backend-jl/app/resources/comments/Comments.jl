@@ -7,7 +7,7 @@ export Comment
 
 @kwdef mutable struct Comment <: AbstractModel
   id::DbId = DbId()
-  uid::Int = 0
+  uid::String = ""
   tid::Int = 0
   comment::String = ""
   time::DateTime = DateTime(2020)
@@ -15,7 +15,7 @@ export Comment
 end
 
 function seed()
-  Comment(DbId(), 1, 1, "挺好看的", DateTime("2020-12-20T08:00:00"), false) |> save!
+  Comment(DbId(), "7777777", 1, "挺好看的", DateTime("2020-12-20T08:00:00"), false) |> save!
 end
 
 end
