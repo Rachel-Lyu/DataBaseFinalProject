@@ -34,7 +34,7 @@ class CommentInput extends React.Component{
           let body = new Object();
           body.uid = localStorage.getItem('id')
           body.tid = this.props.ticketId
-          body.tid = 1
+          // body.tid = 1
           body.comment = this.state.content
           body.anony = this.state.anony
           if (body.comment == '') return alert('请输入评论内容')
@@ -205,6 +205,7 @@ class CommentApp extends React.Component{
         <div>
             <CommentInput onSubmit={this.handleSubmitComment.bind(this)}/>
             <CommentList 
+                ticketId={this.props.ticketId}
                 comments={this.props.comments}
                 onDeleteComment={this.handleDeleteComment.bind(this)}/>
         </div>
